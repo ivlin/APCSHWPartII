@@ -40,7 +40,7 @@ public class Recursion implements hw1{
     public double sqrtHelp(double n, double guess){
 	if (n == 0){
 	    return 0;
-	}else if (guess * guess == n){
+	}else if (guess * guess -  n < 1){
 	    return guess;
 	}else{
 	    return sqrtHelp(n, (n / guess + guess) / 2);
