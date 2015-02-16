@@ -51,45 +51,30 @@ public class NQueens{
     public boolean solve(){
 	int[]current = new int[board.length];
 	for (int i = 0; i < current.length; i++){
-	    current[i] = -9;
+	    current[i] = -1;
 	}
-	return solve(0, 1, 0);
+	return solve(0, 0, 0, current);
     }
 
-    public boolean solve(int row, int col, int qcount){
-	cnt++;
-	System.out.println(this);
-	wait(50);
-	System.out.println(cnt);
-	if (row == board.length - 1){
+    public boolean solve(int row, int col, int qcount, int[] current){
+	if (qcount == board.length){
 	    return true;
 	}	
 	if (row < 0 || row >= board.length || col < 0 || col >= board.length){	
 	    return false;
 	}
-	int temp;
-	if (row < board.length - 1){
-	    for (int i = 0; i < board.length; i++){
-		temp = Character.getNumericValue(board[row][i]);
-		if (temp >= 0 && col - 1 + temp >= 0 && col - 1 + temp < board.length){
-		    board[row + 1][col - 1 + temp] = board[row][col];
-		}
+	board[row][col] = 'Q';
+	current[row] = col;
+	for (int i = 0; i < row; i++){
+	    if (col == current[i] || (float)(col - current[i]) / (row - i) == 1 || (float)(col - current[i]) / (row - i) == -1){
+		board[row][col] = '.';
+		return solve(row, col + 1, qcount, current);
 	    }
 	}
-	if (board[row][col] == '.'){	 
-	    board[row][col] = 'Q';
-	    if (col > 0){
-		board[row + 1][col - 1] = '0';
-	    }
-	    if (col < board.length - 1){
-		board[row + 1][col + 1] = '2';
-	    }
-	    board[row + 1][col] = '1';
-	    if (solve(row + 1, 0, qcount + 1)){
-		return true;
-	    }
-	    board[row][col] = '.';
+	if (solve(row + 1, 0, qcount + 1, current)){
+	    return true;
 	}
-	return solve(row, col + 1, qcount);
-    }
+	board[row][col] = '.';
+	return solve(row, col + 1, qcount, current);
+   }
 }
