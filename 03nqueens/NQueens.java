@@ -6,9 +6,10 @@ public class NQueens{
     final static String clear =  "\033[2J";
     final static String hide =  "\033[?25l";
     final static String show =  "\033[?25h";
-    int cnt = 0;
     //instance variable
     private char[][]board;
+    int[]current;
+
 
 
     private void clearTerminal(){
@@ -28,12 +29,20 @@ public class NQueens{
 	}
     }
 
+    public String name(){
+	return "lin.ivan";
+    }
+
     public NQueens(int n){
 	board = new char[n][n];
 	for (int i = 0; i < n; i++){
 	    for (int t = 0; t < n; t++){
 		board[i][t] = '.';
 	    }
+	}
+	current = new int[board.length];
+	for (int i = 0; i < current.length; i++){
+	    current[i] = -1;
 	}
     }
 
@@ -49,14 +58,16 @@ public class NQueens{
     }
     
     public boolean solve(){
-	int[]current = new int[board.length];
-	for (int i = 0; i < current.length; i++){
-	    current[i] = -1;
-	}
-	return solve(0, 0, 0, current);
+	return solve(0, 0, 0);
     }
 
-    public boolean solve(int row, int col, int qcount, int[] current){
+    public boolean solve(int x){
+	current[0] = x;
+	board[0][x] = 'Q';
+	return solve(1, 0, 1);
+    }
+
+    public boolean solve(int row, int col, int qcount){
 	if (qcount == board.length){
 	    return true;
 	}	
@@ -68,13 +79,13 @@ public class NQueens{
 	for (int i = 0; i < row; i++){
 	    if (col == current[i] || (float)(col - current[i]) / (row - i) == 1 || (float)(col - current[i]) / (row - i) == -1){
 		board[row][col] = '.';
-		return solve(row, col + 1, qcount, current);
+		return solve(row, col + 1, qcount);
 	    }
 	}
-	if (solve(row + 1, 0, qcount + 1, current)){
+	if (solve(row + 1, 0, qcount + 1)){
 	    return true;
 	}
 	board[row][col] = '.';
-	return solve(row, col + 1, qcount, current);
+	return solve(row, col + 1, qcount);
    }
 }
