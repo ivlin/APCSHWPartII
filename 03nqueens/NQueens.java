@@ -10,8 +10,6 @@ public class NQueens{
     private char[][]board;
     int[]current;
 
-
-
     private void clearTerminal(){
 	System.out.println(clear);
     }
@@ -54,7 +52,7 @@ public class NQueens{
 	    }
 	    ans += "\n";
 	}
-	return hide + clear + go(0,0) + ans + "\n" + show;
+	return ans;
     }
     
     public boolean solve(){

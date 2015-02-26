@@ -11,7 +11,7 @@ public class KnightsTour{
     //instance variable
     private int[][]board;
 
-    private String name(){
+    public String name(){
 	return "Lin,Ivan";
     }
 
@@ -40,8 +40,7 @@ public class KnightsTour{
 	    }
 	    ans += "\n";
 	}
-	
-	return hide + go(0,0) + ans + "\n" + show;
+	return ans;
     }
 
     public KnightsTour(int size){
