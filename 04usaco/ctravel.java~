@@ -1,0 +1,20 @@
+import java.util.*;
+import java.io.*;
+public class ctravel{
+    File file;
+    Scanner sc;
+    char[][]pasture;
+    int time;
+
+    public ctravel() throws Exception{
+	file = new File();
+	sc = new Scanner(file);
+	pasture = new char[Integer.parseInt(sc.next())][Integer.parseInt(sc.next())];
+	for (int i = 0; i < pasture.length * pasture[0].length; i++){
+	    pasture[i / pasture[0].length][i % pasture[0].length] = sc.next();
+	}
+	time = Integer.parseInt(sc.next());
+    }
+
+    
+}
