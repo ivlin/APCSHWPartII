@@ -7,7 +7,7 @@ public class ctravel{
     int time, startx, starty, endx, endy;
 
     public ctravel() throws Exception{
-	file = new File("ctravel.txt");
+	file = new File("ctravel.in");
 	sc = new Scanner(file);
 	pasture = new String[Integer.parseInt(sc.next())][Integer.parseInt(sc.next())];
 	time = Integer.parseInt(sc.next()); 
@@ -21,25 +21,27 @@ public class ctravel{
 	starty = Integer.parseInt(sc.next()) - 1;
 	endx = Integer.parseInt(sc.next()) - 1;
 	endy = Integer.parseInt(sc.next()) - 1;
-   }
+    }
 
     public int solve(){
-	return solve(startx, starty, 0);
+        return solve(startx, starty, 0);
     }
 
-public int solve(int x, int y, int t){
-    if (x < 0 || x >= pasture[0].length || y < 0 || y >= pasture.length || pasture[x][y] == "*" || t >= time){
-	return 0;
+    public int solve(int x, int y, int t){
+	if (x < 0 || x >= pasture.length || y < 0 || y >= pasture[0].length || pasture[x][y].equals("*") || t > time){
+	    return 0;
+	}
+	if (x == endx && y == endy){
+	    return 1;
+	}
+	return solve(x + 1, y, t + 1) + solve(x - 1, y, t + 1) + solve(x, y + 1, t + 1) + solve(x, y - 1, t + 1);
     }
-    if (x == endx && y == endy){
-	return 1;
-    }
-    return  solve(x + 1, y, t + 1) + solve(x - 1, y, t + 1) + solve(x, y + 1, t + 1) + solve(x, y - 1, t + 1);
-}
 
     public static void main(String[]args) throws Exception{
 	ctravel x = new ctravel();
-	System.out.println(x.solve());
+	PrintWriter write = new PrintWriter("ctravel.out");
+	write.println(x.solve());
+	write.close();
     }
     
 }
