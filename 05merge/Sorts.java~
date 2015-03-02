@@ -1,9 +1,0 @@
-public class Sorts{
-
-    public static void mergesort(int[]a){	
-    }
-
-    public static void order(int[] array, int a, int b){
-
-    }
-}
