@@ -1,20 +1,15 @@
 import java.util.Arrays;
 public class QuickSelect{
 
-    public static void partition(int[]ary, int si, int ei){
+    public static void oldPartition(int[]ary, int si, int ei){
 	int[]d = new int[ary.length];
 	int pivot = si;
-	int cnt = 0;
         for (int i = 0; i < si; i++){
 	    d[i] = ary[i];
-	    cnt ++;
 	}
 	for (int i = ei + 1; i < ary.length; i++){
 	    d[i] = ary[i];
-	    cnt ++;
 	}
-	System.out.println(cnt);
-	System.out.println(si + " " + ei);
 	for (int i = si; si != ei; i++){
 	    if (i != pivot){
 		if (ary[i] < ary[pivot]){
@@ -24,20 +19,54 @@ public class QuickSelect{
 		    d[ei] = ary[i];
 		    ei --;
 		}
-	    }else{
-		System.out.println("A");
 	    }
-	    cnt ++;
 	}
-	System.out.println(cnt);
-	System.out.println("SI at index " + si + " or "+ ary[pivot]);
 	d[si] = ary[pivot];
 	ary = d;
-	System.out.println(Arrays.toString(d));
+    }
+
+    public static int quickSelect(int[]ary, int n){
+	int pivot;
+	int max = ary.length - 1;
+	int min = 0;
+	do{
+	    pivot = partition(ary, min, max);
+	    System.out.println(pivot);
+	    System.out.println(Arrays.toString(ary));
+	    if (pivot > n){
+		max = pivot;
+	    }else{
+		min = pivot;
+	    }
+	} while (pivot != n);
+	return ary[pivot];
+    }
+
+    public static int partition(int[]ary, int si, int ei){
+	int ri = ary[si + (int)(Math.random() * (ei - si))];
+	int trace = si;
+	int temp;
+	while (si != ei){
+	    if (ary[trace] > ri){
+		temp = ary[ei];
+		ary[ei] = ary[trace];
+		ary[si] = temp;
+		ei--;
+	    }
+	    if (ary[trace] < ri){
+		si ++;
+		trace ++;
+	    }
+	    if (ary[trace] == ri){
+		trace++;
+	    }
+	}
+	ary[si] = ri;
+	return si;
     }
 
     public static void main(String[]args){
-	int[]ar = new int[50];
+	int[]ar = new int[10];
 	for (int i = 0; i < ar.length; i++){
 	    ar[i] = i;
 	}
@@ -50,6 +79,7 @@ public class QuickSelect{
 	    ar[i] = temp; 
 	}
 	System.out.println(Arrays.toString(ar));
-	partition(ar, 0, ar.length - 1);
+        System.out.println(quickSelect(ar, Integer.parseInt(args[0])));
+	System.out.println(Arrays.toString(ar));
     }
 }
