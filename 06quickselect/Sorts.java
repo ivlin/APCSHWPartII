@@ -1,3 +1,4 @@
+import java.util.*;
 public class Sorts{
     public static int quickSelect(int[]ary, int n){
 	int pivot;
@@ -5,15 +6,26 @@ public class Sorts{
 	int min = 0;
 	do{
 	    pivot = partition(ary, min, max);
-	    System.out.println(pivot);
-	    System.out.println(Arrays.toString(ary));
-	    if (pivot > n){
+	     if (pivot > n){
 		max = pivot;
 	    }else{
 		min = pivot;
 	    }
 	} while (pivot != n);
 	return ary[pivot];
+    }
+
+    public static void quickSort(int[]ary){
+	quickSort(ary, 0, ary.length - 1);
+    }
+
+    public static void quickSort(int[]ary, int si, int ei){
+	if (ei - si > 1){
+	    int n = partition(ary, si, ei);
+	    quickSort(ary, si, n - 1);
+	    
+	    quickSort(ary, n + 1, ei);
+	}
     }
 
     public static int partition(int[]ary, int si, int ei){
@@ -23,36 +35,28 @@ public class Sorts{
 	ary[temp] = oldS;
 	oldS = si;
 	si++;
-	while (si != ei){
-	    if (ary[trace] > ri){
+	int mids = si;
+	while (si <= ei){
+	    if (ary[si] > ary[oldS]){
 		temp = ary[ei];
 		ary[ei] = ary[si];
 		ary[si] = temp;
 		ei--;
-	    }
-	    if (ary[trace] < ri){
+	    }else if (ary[si] < ary[oldS]){
+		if (mids != si){
+		    ary[mids] = ary[si];
+		    ary[si] = ary[oldS];
+		}
+		mids ++;
 		si ++;  	
+	    }else{
+		si ++;
 	    }
 	}
-	ary[si] = ri;
+	si = mids - 1;
+	temp = ary[oldS];
+	ary[oldS] = ary[si];
+	ary[si] = temp;
 	return si;
-    }
-
-    public static void main(String[]args){
-	int[]ar = new int[10];
-	for (int i = 0; i < ar.length; i++){
-	    ar[i] = i;
-	}
-	int temp;
-	int newi;
-	for (int i = 0; i < ar.length; i++){
-	    newi = (int)(Math.random() * ar.length);
-	    temp = ar[newi];
-	    ar[newi] = ar[i];
-	    ar[i] = temp; 
-	}
-	System.out.println(Arrays.toString(ar));
-        System.out.println(quickSelect(ar, Integer.parseInt(args[0])));
-	System.out.println(Arrays.toString(ar));
     }
 }
