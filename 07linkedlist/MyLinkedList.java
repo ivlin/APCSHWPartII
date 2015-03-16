@@ -1,6 +1,6 @@
 public class MyLinkedList<T>{
 
-    private LNode first, last, current;
+    private LNode<T> first, last, current;
     private int size;
 
     public MyLinkedList(){
@@ -15,7 +15,7 @@ public class MyLinkedList<T>{
 	return size;
     }
 
-    public int indexOf(int val){
+    public int indexOf(T val){
 	current = first;
 	int ind = 0;
 	while (current.getNext() != null){
@@ -28,7 +28,7 @@ public class MyLinkedList<T>{
 	return -1;
     }
 
-    public int get(int ind) throws IndexOutOfBoundsException{
+    public T get(int ind) throws IndexOutOfBoundsException{
 	if (ind >= size() || ind < 0){
 	    throw new IndexOutOfBoundsException();
 	}
@@ -39,30 +39,31 @@ public class MyLinkedList<T>{
 	return current.getData();
     }
 
-    public boolean add(int val) throws IndexOutOfBoundsException{
+    public boolean add(T val) throws IndexOutOfBoundsException{
 	return add(size(), val);
     }
 
-    public boolean add(int ind, int val) throws IndexOutOfBoundsException{
+    public boolean add(int ind, T val) throws IndexOutOfBoundsException{
 	if (ind > size() || ind < 0){
 	    throw new IndexOutOfBoundsException();
 	}
 	if (size == 0){
-	    first = last = new LNode(val);
-	}else if (ind == size){
-	    last.setNext(new LNode(val));
+	    first = last = new LNode<T>(val);
+	}else if (ind == size()){
+	    last.setNext(new LNode<T>(val));
+	    last = last.getNext();
 	}else{
 	    current = first;
 	    for (int i = 0; i < ind - 1; i++){
 		current = current.getNext();
 	    }
-	    current.setNext(new LNode(val, current.getNext()));
+	    current.setNext(new LNode<T>(val, current.getNext()));
 	}	
 	size++;
 	return true;
     }
 
-    public T set(int ind, int val) throws IndexOutOfBoundsException{
+    public T set(int ind, T val) throws IndexOutOfBoundsException{
 	if (ind >= size() || ind < 0){
 	    throw new IndexOutOfBoundsException();
 	}
@@ -104,14 +105,11 @@ public class MyLinkedList<T>{
 	return str.substring(0, str.length() - 1) + "]";
     }
 
-    public static void main (String[]args){
-	MyLinkedList l = new MyLinkedList();
-	l.add(1);
-	l.add(4);
-	l.add(7);
-	l.add(11);
-	l.remove(20);
-	l.set(1,15);
-	System.out.println(l);
+    public boolean isEmpty(){
+	return size == 0;
+    }
+
+    public static void main(String[]args){
+
     }
 }
