@@ -1,6 +1,10 @@
 import java.util.Arrays;
 public class Sorts{
 
+    public String name(){
+	return "lin, ivan";
+    }
+
     public static void mergesort(int[]a){
 	mergesort(a, 0, a.length);
     }

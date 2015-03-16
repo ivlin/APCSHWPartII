@@ -1,10 +1,14 @@
-public class MyLinkedList{
+public class MyLinkedList<T>{
 
-    private LNode first;
+    private LNode first, last, current;
     private int size;
 
     public MyLinkedList(){
 	size = 0;
+    }
+
+    public String name(){
+	return "lin, ivan";
     }
 
     public int size(){
@@ -12,7 +16,7 @@ public class MyLinkedList{
     }
 
     public int indexOf(int val){
-	LNode current = first;
+	current = first;
 	int ind = 0;
 	while (current.getNext() != null){
 	    if (current.getData() == val){
@@ -24,60 +28,75 @@ public class MyLinkedList{
 	return -1;
     }
 
-    public int get(int ind){
-	LNode current = first;
+    public int get(int ind) throws IndexOutOfBoundsException{
+	if (ind >= size() || ind < 0){
+	    throw new IndexOutOfBoundsException();
+	}
+	current = first;
 	for (int i = 0; i < ind; i++){
 	    current = current.getNext();
 	}
 	return current.getData();
     }
 
-    public boolean add(int val){
+    public boolean add(int val) throws IndexOutOfBoundsException{
+	return add(size(), val);
+    }
+
+    public boolean add(int ind, int val) throws IndexOutOfBoundsException{
+	if (ind > size() || ind < 0){
+	    throw new IndexOutOfBoundsException();
+	}
 	if (size == 0){
-	    first = new LNode(val);
+	    first = last = new LNode(val);
+	}else if (ind == size){
+	    last.setNext(new LNode(val));
 	}else{
-	    LNode current = first;
-	    while (current.getNext() != null){
+	    current = first;
+	    for (int i = 0; i < ind - 1; i++){
 		current = current.getNext();
 	    }
-	    current.setNext(new LNode(val));
-	}
+	    current.setNext(new LNode(val, current.getNext()));
+	}	
 	size++;
 	return true;
     }
 
-    public boolean add(int ind, int val){
-	LNode current = first;
-	for (int i = 0; i < ind - 1; i++){
-	    current = current.getNext();
+    public T set(int ind, int val) throws IndexOutOfBoundsException{
+	if (ind >= size() || ind < 0){
+	    throw new IndexOutOfBoundsException();
 	}
-	current.setNext(new LNode(val, current.getNext()));
-	return true;
-    }
-
-    public int set(int ind, int val){
-	LNode current = first;
+	if(ind == size){
+	    last.setData(val);
+	}
+	current = first;
 	for (int i = 0; i < ind; i++){
 	    current = current.getNext();
 	}
-	int data = current.getData();
+	T data = current.getData();
 	current.setData(val);
 	return data;
     }
 
-    public int remove(int ind){
-	LNode current = first;
+    public boolean remove(int ind) throws IndexOutOfBoundsException{
+	if (ind >= size() || ind < 0){
+	    throw new IndexOutOfBoundsException();
+	}
+	current = first;
+	if (ind == 0){
+	    first = first.getNext();
+	}
 	for (int i = 0; i < ind - 1; i++){
 	    current = current.getNext();
 	}
-	int temp = current.getNext().getData();
+	//int temp = current.getNext().getData();
 	current.setNext(current.getNext().getNext());
-	return temp;    
+	return true;    
     }
 
     public String toString(){
 	String str = "[";
-	LNode current = first;
+	current = first;
 	while (current != null){
 	    str += current.getData() + ",";
 	    current = current.getNext();
@@ -91,7 +110,7 @@ public class MyLinkedList{
 	l.add(4);
 	l.add(7);
 	l.add(11);
-	l.remove(2);
+	l.remove(20);
 	l.set(1,15);
 	System.out.println(l);
     }
