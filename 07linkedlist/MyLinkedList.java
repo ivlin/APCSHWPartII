@@ -1,10 +1,38 @@
-public class MyLinkedList<T>{
+import java.util.*;
+public class MyLinkedList<T> implements Iterable<T>{
+
+    private class MyLLIterator<T> implements Iterator<T>{
+	private LNode<T> now;
+
+	public MyLLIterator(LNode<T> first){
+	    now = first;
+	}
+
+	public boolean hasNext(){
+	    return now.getNext() != null; 
+	}
+
+	public T next(){
+	    T data = now.getData();
+	    now = now.getNext();
+	    return data;
+	}
+
+	public void remove() throws UnsupportedOperationException{
+	    throw new UnsupportedOperationException();
+	}
+
+    }
 
     private LNode<T> first, last, current;
     private int size;
 
     public MyLinkedList(){
 	size = 0;
+    }
+
+    public Iterator<T> iterator(){
+	return new MyLLIterator<T>(first);
     }
 
     public String name(){
