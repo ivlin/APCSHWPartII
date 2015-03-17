@@ -87,11 +87,20 @@ public class MyLinkedList<T>{
 	if (ind == 0){
 	    first = first.getNext();
 	}
+	if (size == 0){
+	    first = null;
+	}
 	for (int i = 0; i < ind - 1; i++){
 	    current = current.getNext();
 	}
 	//int temp = current.getNext().getData();
-	current.setNext(current.getNext().getNext());
+	if (ind < size - 1){
+	    current.setNext(current.getNext().getNext());
+	}else{
+	    last = current;
+	    current.setNext(null);
+	}
+	size--;
 	return true;    
     }
 
@@ -107,9 +116,5 @@ public class MyLinkedList<T>{
 
     public boolean isEmpty(){
 	return size == 0;
-    }
-
-    public static void main(String[]args){
-
     }
 }
