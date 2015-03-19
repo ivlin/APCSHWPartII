@@ -2,7 +2,7 @@ import java.util.Arrays;
 public class Sorts{
 
     public String name(){
-	return "lin, ivan";
+	return "lin.ivan";
     }
 
     public static void mergesort(int[]a){

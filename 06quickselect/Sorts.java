@@ -2,7 +2,7 @@ import java.util.*;
 public class Sorts{
 
     public String name(){
-	return "lin, ivan";
+	return "lin.ivan";
     }
 
     public static int quickSelect(int[]ary, int n){

@@ -36,7 +36,7 @@ public class MyLinkedList<T> implements Iterable<T>{
     }
 
     public String name(){
-	return "lin, ivan";
+	return "lin.ivan";
     }
 
     public int size(){
