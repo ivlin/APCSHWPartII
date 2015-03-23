@@ -10,8 +10,9 @@ public class MyQueue<T>{
 	queue = new LinkedList<T>();
     }
 
-    public void enqueue(T n){
+    public boolean enqueue(T n){
 	queue.add(n);
+	return true;
     }
 
     public T dequeue(){
