@@ -1,9 +1,9 @@
 import java.util.*;
 public class MyStack<T>{
-    private LinkedList<T> stack;
+    private MyLinkedList<T> stack;
 
     public MyStack(){
-        stack = new LinkedList<T>();
+        stack = new MyLinkedList<T>();
     }
 
     public String name(){

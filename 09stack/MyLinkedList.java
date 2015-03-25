@@ -107,7 +107,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 	return data;
     }
 
-    public boolean remove(int ind) throws IndexOutOfBoundsException{
+    public T remove(int ind) throws IndexOutOfBoundsException{
 	if (ind >= size() || ind < 0){
 	    throw new IndexOutOfBoundsException();
 	}
@@ -121,7 +121,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 	for (int i = 0; i < ind - 1; i++){
 	    current = current.getNext();
 	}
-	//int temp = current.getNext().getData();
+	T temp = current.getNext().getData();
 	if (ind < size - 1){
 	    current.setNext(current.getNext().getNext());
 	}else{
@@ -129,7 +129,7 @@ public class MyLinkedList<T> implements Iterable<T>{
 	    current.setNext(null);
 	}
 	size--;
-	return true;    
+	return temp;    
     }
 
     public String toString(){

@@ -1,13 +1,13 @@
 import java.util.*;
 public class MyQueue<T>{
-    LinkedList<T> queue;
+    MyLinkedList<T> queue;
 
     public String name(){
 	return "lin.ivan";
     }
 
     public MyQueue(){
-	queue = new LinkedList<T>();
+	queue = new MyLinkedList<T>();
     }
 
     public boolean enqueue(T n){
