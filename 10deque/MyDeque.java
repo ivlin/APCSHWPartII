@@ -59,20 +59,27 @@ public class MyDeque<T>{
 	last = deque.length;
     }
 
-   public String toString(){
-	String str = "";
-	for (int i = 0; i < deque.length; i++){
-	    str += deque[i];
-	}
-	return str;
+    public T removeFirst(){
+	T removed = getFirst();
+	first--;
+	add(first, null);
+	return removed;
     }
 
-    public static void main(String[]args){
-	MyDeque<Integer> m = new MyDeque<Integer>();
-	for (int i = 0; i < 15; i++){	
-	    m.addLast(i);
-	    System.out.println(m);
-	}
-	System.out.println(m.getLast());
+    public T removeLast(){
+	    System.out.println(last);
+	T removed = getLast();	
+	last++;
+	add(last, null);
+	return removed;
     }
+
+   public String toString(){
+	String str = "[ ";
+	for (int i = 0; i < deque.length; i++){
+	    str += deque[i] + ",";
+	}
+	return str + " ]";
+    }
+
 }
