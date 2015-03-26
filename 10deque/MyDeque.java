@@ -1,3 +1,4 @@
+import java.util.*;
 public class MyDeque<T>{
 
     Object[]deque;
@@ -10,25 +11,52 @@ public class MyDeque<T>{
     }
 
     public T getFirst(){
-	if (first > 0){
-	    return (T)deque[first - 1];  
+	if (first != (last + 1) % deque.length){
+	    if (first > 0){
+		return (T)deque[first - 1];
+	    }else{
+		return (T)deque[deque.length - 1];
+	    }
 	}
 	return null;
     }
 
     public T getLast(){
-	return (T)deque[(last + 1) % deque.length];
+	if (first != (last + 1) % deque.length){
+	    return (T)deque[(last + 1) % deque.length];
+	}
+	return null;
     }
 
-
     public void addFirst(T value){
-	deque[first] = value;
+	add(first, value);
 	first++;
     }
 
     public void addLast(T value){
-	deque[last] = value;
+	add(last, value);
 	last--;
+    }
+
+    public void add(int ind, T value){
+	if (ind < 0){
+	    deque[deque.length - 1] = value;
+	}else{
+	    deque[ind % deque.length] = value;
+	}
+	if (first == last){
+	    resize();
+	}
+    }
+
+    public void resize(){
+	Object[] temp = new Object[deque.length * 2];
+	for (int i = 0; i < deque.length; i ++){
+	    temp[i] = deque[(last + i) % deque.length];	
+	}
+	first = deque.length;
+	deque = temp;
+	last = deque.length;
     }
 
    public String toString(){
@@ -41,12 +69,10 @@ public class MyDeque<T>{
 
     public static void main(String[]args){
 	MyDeque<Integer> m = new MyDeque<Integer>();
-	m.addFirst(2);
-	m.addFirst(4);
-	m.addLast(3);
-	m.addLast(5);
-	System.out.println(m);
+	for (int i = 0; i < 15; i++){	
+	    m.addLast(i);
+	    System.out.println(m);
+	}
+	System.out.println(m.getLast());
     }
-
-
 }
