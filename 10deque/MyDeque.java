@@ -45,32 +45,42 @@ public class MyDeque<T>{
 	    deque[ind % deque.length] = value;
 	}
 	if (first == last){
-	    resize();
+	    resize(2 * deque.length);
 	}
     }
 
-    public void resize(){
-	Object[] temp = new Object[deque.length * 2];
-	for (int i = 0; i < deque.length; i ++){
-	    temp[i] = deque[(last + i) % deque.length];	
-	}
-	first = deque.length;
+    public void resize(int newLength){
+	System.out.println(this + " last" + deque[last % deque.length] + " first:" + deque[first]);
+	Object[] temp = new Object[newLength];
+	int cnt = 0;
+	do {
+	    temp[cnt] = deque[(last + cnt) % deque.length];
+	    cnt ++;	
+	}while((last + cnt) % deque.length != first);
+	first = cnt;
 	deque = temp;
 	last = deque.length;
+	System.out.println(this + " last:" + deque[last % deque.length] + " first:" + deque[first]);
     }
 
     public T removeFirst(){
 	T removed = getFirst();
 	first--;
 	add(first, null);
+	if (deque.length > 10 && Math.abs(first - last) >= 3 * deque.length / 4){
+	    resize(deque.length / 2);
+	}
 	return removed;
     }
 
     public T removeLast(){
-	    System.out.println(last);
 	T removed = getLast();	
 	last++;
 	add(last, null);
+
+	if (deque.length > 10 && Math.abs(first - last) >= 3 * deque.length / 4){
+	    resize(deque.length / 2);
+	}	
 	return removed;
     }
 
@@ -81,5 +91,18 @@ public class MyDeque<T>{
 	}
 	return str + " ]";
     }
+
+   public static void main(String[]args){
+       MyDeque<Integer> m = new MyDeque<Integer>();
+       for (int i = 0; i < 10; i++){
+	   m.addFirst(i);
+	   m.addLast(-i);
+	   //	   System.out.println(m);
+       }
+       System.out.println(m);
+       for (int i = 0; i < 15; i++){
+	   m.removeLast(); 
+       }
+   }
 
 }
