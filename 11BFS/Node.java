@@ -1,9 +1,9 @@
-public class LNode{
+public class Node{
 
     private int x,y;
-    private LNode last;
+    private Node last;
 
-    public LNode(int xi, int yi, LNode lastN){
+    public Node(int xi, int yi, Node lastN){
 	x = xi;
 	y = yi;
 	last = lastN;
@@ -17,7 +17,8 @@ public class LNode{
 	return y;
     }
 
-    public LNode getLast(){
+    public Node getLast(){
 	return last;
     }
+
 }
