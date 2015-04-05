@@ -13,7 +13,7 @@ public class MyDeque<T>{
     public T getFirst(){
 	if (first != (last + 1) % deque.length){
 	    if (first > 0){
-		return (T)deque[first - 1];
+		return (T)deque[(first - 1) % deque.length];
 	    }else{
 		return (T)deque[deque.length - 1];
 	    }
@@ -30,9 +30,8 @@ public class MyDeque<T>{
 
     public void addFirst(T value){
 	add(first, value);
-
 	first++;	
-if (first == last){
+	if (first == last){
 	    resize(2 * deque.length);
 	}
     }
