@@ -1,11 +1,12 @@
 public class Node{
 
-    private int x,y;
+    private int x,y,dist;
     private Node last;
 
-    public Node(int xi, int yi, Node lastN){
+    public Node(int xi, int yi, int distance, Node lastN){
 	x = xi;
 	y = yi;
+	dist = distance;
 	last = lastN;
     }
 
@@ -19,6 +20,10 @@ public class Node{
 
     public Node getLast(){
 	return last;
+    }
+
+    public int getDistance(){
+	return dist;
     }
 
 }

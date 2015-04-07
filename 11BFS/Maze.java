@@ -9,6 +9,7 @@ public class Maze{
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
     private Frontier front;
+    private int[] solutionSteps;
 
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
@@ -59,6 +60,7 @@ public class Maze{
     
 
     public Maze(String filename){
+	solutionSteps = new int[0];
 	startx = -1;
 	starty = -1;
 	//read the whole maze into a single string first
@@ -97,58 +99,70 @@ public class Maze{
     }
 
     public boolean solveDFS(){
-	front = new Frontier(true);
-	front.add(startx, starty, null);
+	return solve(true, false);
+    }
+
+    public boolean solveDFS(boolean animated){
+	return solve(true, true);
+    }
+
+    public boolean solveBFS(){
+	return solve(false, false);
+    }
+
+    public boolean solveBFS(boolean animated){
+	return solve(false, true);
+    }
+
+    public boolean solve(boolean isDFS, boolean isAnimated){
+	front = new Frontier(isDFS);
+	front.add(startx, starty, 0, null);
 	Node current;
-	int cnt = 0;
 	while (front.hasNext()){
-	    wait(30);
-	    clearTerminal();
-	    System.out.println(this.toStringAnimated());
+	    if (isAnimated){
+		wait(10);
+		clearTerminal();
+		System.out.println(this.toStringAnimated());
+	    }
 	    current = front.next();	    
 	    if (maze[current.getx()][current.gety()] == 'E'){
+		solutionSteps = setSolutionCoordinates(current);
 		return true;
 	    }
 	    if (maze[current.getx()][current.gety()] == ' ' ||
 		maze[current.getx()][current.gety()] == 'S'){
-		front.add(current.getx() + 1, current.gety(), current);
-		front.add(current.getx() - 1, current.gety(), current);
-		front.add(current.getx(), current.gety() + 1, current);
-		front.add(current.getx(), current.gety() - 1, current);
+		front.add(current.getx() + 1, current.gety(),
+			  current.getDistance() + 1, current);
+		front.add(current.getx() - 1, current.gety(),
+			  current.getDistance() + 1, current);
+		front.add(current.getx(), current.gety() + 1, 
+			  current.getDistance() + 1, current);
+		front.add(current.getx(), current.gety() - 1, 
+			  current.getDistance() + 1, current);
 		maze[current.getx()][current.gety()] = '.';
 	    }	
 	}
 	return false;
     }
 
-    public boolean solveBFS(){
-	front = new Frontier(false);
-	front.add(startx, starty, null);
-	Node current;
-	int cnt = 0;
-	while (front.hasNext()){
-	    wait(30);
-	    clearTerminal();
-	    System.out.println(this.toStringAnimated());
-	    current = front.next();	    
-	    if (maze[current.getx()][current.gety()] == 'E'){
-		return true;
-	    }
-	    if (maze[current.getx()][current.gety()] == ' ' ||
-		maze[current.getx()][current.gety()] == 'S'){
-		front.add(current.getx() + 1, current.gety(), current);
-		front.add(current.getx() - 1, current.gety(), current);
-		front.add(current.getx(), current.gety() + 1, current);
-		front.add(current.getx(), current.gety() - 1, current);
-		maze[current.getx()][current.gety()] = '.';
-	    }	
+    public int[] setSolutionCoordinates(Node n){
+	int[]steps = new int[2 * (n.getDistance() + 1)];
+	for (int i = steps.length - 1; i >= 0; i -= 2){
+	    steps[i - 1] = n.getx();	    
+	    steps[i] = n.gety();
+	    n = n.getLast();
 	}
-	return false;
+	return steps;
+    }
+
+    public int[] solutionCoordinates(){
+	return solutionSteps;
     }
 
     public static void main(String[]args){
 	Maze m = new Maze(args[0]);
-	System.out.println(m.solveBFS());
+	System.out.println(m.solveBFS(true));
+	System.out.println(Arrays.toString(m.solutionCoordinates()));
     }
 
     private class Frontier{
@@ -168,11 +182,11 @@ public class Maze{
 	    return moves.removeLast();
 	}
 
-	public void add(int x, int y, Node last){
+	public void add(int x, int y, int dist, Node last){
 	    if (DFS){
-		moves.addLast(new Node(x, y, last));
+		moves.addLast(new Node(x, y, dist, last));
 	    }else{
-		moves.addFirst(new Node(x, y, last));
+		moves.addFirst(new Node(x, y, dist, last));
 	    }
 	}
     }
