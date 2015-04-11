@@ -99,19 +99,19 @@ public class Maze{
     }
 
     public boolean solveDFS(){
-	return solve(true, false);
+	return solveDFS(false);
     }
 
     public boolean solveDFS(boolean animated){
-	return solve(true, true);
+	return solve(true, animated);
     }
 
     public boolean solveBFS(){
-	return solve(false, false);
+	return solveBFS(false);
     }
 
     public boolean solveBFS(boolean animated){
-	return solve(false, true);
+	return solve(false, animated);
     }
 
     public boolean solve(boolean isDFS, boolean isAnimated){
