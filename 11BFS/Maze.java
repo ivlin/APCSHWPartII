@@ -32,6 +32,10 @@ public class Maze{
     }
 
     public String toString(){
+	return toString(false);
+    }
+
+    public String toString(boolean animate){
 	String ans = "";
 	for (int r = 0; r < maze.length; r++){
 	    for (int c = 0; c < maze[0].length; c++){
@@ -39,23 +43,10 @@ public class Maze{
 	    }
 	    ans += "\n";
 	}
-	return ans;
-    }
-
-    public String toStringAnimated(){
-	String ans = "Solving a maze that is " + maxx + " by " + maxy + "\n";
-	for(int i = 0; i < maxx * maxy; i++){
-	    if(i % maxx == 0 && i != 0){
-		ans += "\n";
-	    }
-	    char c =  maze[i % maxx][i / maxx];
-	    if(c == '#'){
-		ans += color(38,47)+c;
-	    }else{
-		ans += color(32,40)+c;
-	    }
+	if (animate){
+	    return hide + go(0,0) + ans + "\n" + show;
 	}
-	return hide + go(0,0) + ans + "\n" + show + color(37,40);
+	return ans;
     }
     
 
@@ -122,7 +113,7 @@ public class Maze{
 	    if (isAnimated){
 		wait(10);
 		clearTerminal();
-		System.out.println(this.toStringAnimated());
+		System.out.println(this.toString(true));
 	    }
 	    current = front.next();	    
 	    if (maze[current.getx()][current.gety()] == 'E'){
