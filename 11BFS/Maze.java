@@ -118,6 +118,11 @@ public class Maze{
 	    current = front.next();	    
 	    if (maze[current.getx()][current.gety()] == 'E'){
 		solutionSteps = setSolutionCoordinates(current);
+		while (current.getLast() != null){
+		    current = current.getLast();
+		    maze[current.getx()][current.gety()] = '@';
+		}
+		maze[startx][starty] = 'S';
 		return true;
 	    }
 	    if (maze[current.getx()][current.gety()] == ' ' ||
@@ -152,8 +157,10 @@ public class Maze{
 
     public static void main(String[]args){
 	Maze m = new Maze(args[0]);
+
 	System.out.println(m.solveBFS(true));
 	System.out.println(Arrays.toString(m.solutionCoordinates()));
+	System.out.println(m);
     }
 
     private class Frontier{
