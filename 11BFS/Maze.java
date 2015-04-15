@@ -4,12 +4,16 @@ public class Maze{
 
     private char[][]maze;
     private int maxx,maxy;
-    private int startx,starty;
+    private int startx,starty,endx,endy;
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
     private Frontier front;
     private int[] solutionSteps;
+
+    public String name(){
+	return "lin, ivan";
+    }
 
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
@@ -86,6 +90,10 @@ public class Maze{
 		startx = i % maxx;
 		starty = i / maxx;
 	    }
+	    if (c == 'E'){
+		endx = i % maxx;
+		endy = i /maxx;
+	    }
 	}
     }
 
@@ -94,7 +102,7 @@ public class Maze{
     }
 
     public boolean solveDFS(boolean animated){
-	return solve(true, animated);
+	return solve(0, animated);
     }
 
     public boolean solveBFS(){
@@ -102,11 +110,20 @@ public class Maze{
     }
 
     public boolean solveBFS(boolean animated){
-	return solve(false, animated);
+	return solve(1, animated);
     }
 
-    public boolean solve(boolean isDFS, boolean isAnimated){
-	front = new Frontier(isDFS);
+    public boolean solveBest(){
+	return solveBest(false);
+    }
+
+    public boolean solveBest(boolean animated){
+	return solve(2, animated);
+    }
+
+    //modes: 0 = dfs; 1 = bfs; 2 = best; 3 = a*
+    public boolean solve(int mode, boolean isAnimated){
+	front = new Frontier(mode, endx, endy);
 	front.add(startx, starty, 0, null);
 	Node current;
 	while (front.hasNext()){
@@ -155,36 +172,33 @@ public class Maze{
 	return solutionSteps;
     }
 
-    public static void main(String[]args){
-	Maze m = new Maze(args[0]);
-
-	System.out.println(m.solveBFS(true));
-	System.out.println(Arrays.toString(m.solutionCoordinates()));
-	System.out.println(m);
-    }
-
     private class Frontier{
 	MyDeque<Node> moves;
-	boolean DFS;
+	int endx, endy;
+	int mode;
 
-	public Frontier(boolean setDFS){
+	public Frontier(int newMode, int ex, int ey){
 	    moves = new MyDeque<Node>();
-	    DFS = setDFS;
+	    mode = newMode;
+	    endx = ex;
+	    endy = ey;
 	}
-
+	
 	public boolean hasNext(){
 	    return moves.getFirst() != null;
 	}
-
+	
 	public Node next(){
 	    return moves.removeLast();
 	}
 
 	public void add(int x, int y, int dist, Node last){
-	    if (DFS){
+	    if (mode == 0){
 		moves.addLast(new Node(x, y, dist, last));
-	    }else{
+	    }else if (mode == 1){
 		moves.addFirst(new Node(x, y, dist, last));
+	    }else if (mode == 2){
+		moves.add(new Node(x, y, dist, last), Math.abs(endx - x) + Math.abs(endy - y));
 	    }
 	}
     }
