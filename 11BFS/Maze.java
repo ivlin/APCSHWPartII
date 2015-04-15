@@ -189,7 +189,11 @@ public class Maze{
 	}
 	
 	public Node next(){
-	    return moves.removeLast();
+	    if (mode == 0 || mode == 1){
+		return moves.removeLast();
+	    }else{
+		return moves.removeSmallest();
+	    }
 	}
 
 	public void add(int x, int y, int dist, Node last){
