@@ -1,6 +1,7 @@
 import java.util.*;
 public class MyDeque<T>{
 
+    boolean priority;
     Object[]deque;
     int[]priorities;
     int first, last;
@@ -57,20 +58,23 @@ public class MyDeque<T>{
 
     //priorityadd
     public void add(T value, int priority){
-	deque.addLast(value);
-	priorities[(last + 1) % deque.size] = priority;
+	priorities[last] = priority;
+	addLast(value);
     }
 
     public void resize(int newLength){
 	Object[] temp = new Object[newLength];
+	int[] tempP = new int[newLength];
 	int cnt = 0;
 	do {
 	    temp[cnt] = deque[(last + 1 + cnt) % deque.length];
+	    tempP[cnt] = priorities[(last + 1 + cnt) % priorities.length];
 	    cnt ++;
 	}
 	while((last + cnt) % deque.length != first % deque.length);
 	first = cnt - 1;
 	deque = temp;
+	priorities = tempP;
 	last = deque.length - 1;
     }
 
@@ -96,13 +100,20 @@ public class MyDeque<T>{
 
     public T removeSmallest(){
 	int smallestInd;
-	smallestInd = priorities[(tail + 1) % deque.size];
-	for (int i = (tail + 1) % deque.size; i != head; i++){
+	smallestInd = (last + 1) % deque.length;
+	//	System.out.println(smallestInd);
+	for (int i = smallestInd; i != first; i = (i + 1) % deque.length){
+	    //	    System.out.println(i);
 	    if (priorities[smallestInd] > priorities[i]){
 		smallestInd = i;
 	    }
 	}
-	
+	//	System.out.println(smallestInd);
+	//	System.out.println(priorities[smallestInd]);
+	T temp = (T)deque[smallestInd];
+	priorities[smallestInd] = priorities[(last + 1) % deque.length];
+	deque[smallestInd] = removeLast();
+	return temp;
     }
 
    public String toString(){
