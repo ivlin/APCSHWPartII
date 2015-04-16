@@ -26,4 +26,8 @@ public class Node{
 	return dist;
     }
 
+    public String toString(){
+	return "( " + x + " , " + y + " )";
+    }
+
 }

@@ -47,6 +47,7 @@ public class Maze{
 	    }
 	    ans += "\n";
 	}
+	ans += front.toString();
 	if (animate){
 	    return hide + go(0,0) + ans + "\n" + show;
 	}
@@ -128,7 +129,7 @@ public class Maze{
 	Node current;
 	while (front.hasNext()){
 	    if (isAnimated){
-		wait(10);
+		wait(30);
 		clearTerminal();
 		System.out.println(this.toString(true));
 	    }
@@ -203,7 +204,13 @@ public class Maze{
 		moves.addFirst(new Node(x, y, dist, last));
 	    }else if (mode == 2){
 		moves.add(new Node(x, y, dist, last), Math.abs(endx - x) + Math.abs(endy - y));
+	    }else if (mode == 3){
+		moves.add(new Node(x,y,dist,last), Math.abs(endx - x) + Math.abs(endy - y) + last.getDistance());
 	    }
+	}
+
+	public String toString(){
+	    return moves.toString();
 	}
     }
 }
