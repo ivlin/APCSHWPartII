@@ -47,7 +47,6 @@ public class Maze{
 	    }
 	    ans += "\n";
 	}
-	ans += front.toString();
 	if (animate){
 	    return hide + go(0,0) + ans + "\n" + show;
 	}

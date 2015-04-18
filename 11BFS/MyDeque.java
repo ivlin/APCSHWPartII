@@ -119,7 +119,7 @@ public class MyDeque<T>{
    public String toString(){
 	String str = "[ ";
 	for (int i = 0; i < deque.length; i++){
-	    str += deque[i] + "" +  priorities[i] + ",";
+	    str += deque[i] + ",";
 	}
 	return str + " ]";
     }
