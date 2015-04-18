@@ -120,6 +120,14 @@ public class Maze{
 	return solve(2, animated);
     }
 
+    public boolean solveAStar(){
+	return solveAStar(false);
+    } 
+    
+    public boolean solveAStar(boolean animated){
+	return solve(3, animated);
+    }
+
     //modes: 0 = dfs; 1 = bfs; 2 = best; 3 = a*
     public boolean solve(int mode, boolean isAnimated){
 	front = new Frontier(mode, endx, endy);
@@ -202,7 +210,7 @@ public class Maze{
 		return moves.removeSmallest();
 	    }
 	}
-
+	
 	public Node add(int x, int y, int dist, Node last){
 	    Node n = new Node(x, y, dist, last);
 	    if (mode == 0){
@@ -212,7 +220,11 @@ public class Maze{
 	    }else if (mode == 2){
 		moves.add(n, Math.abs(endx - x) + Math.abs(endy - y));
 	    }else if (mode == 3){
-		moves.add(n, Math.abs(endx - x) + Math.abs(endy - y) + last.getDistance());
+		if (last != null){
+		    moves.add(n, Math.abs(endx - x) + Math.abs(endy - y) + last.getDistance());
+		}else{
+		    moves.add(n, Math.abs(endx - x) + Math.abs(endy - y));	
+		}
 	    }
 	    return n;
 	}
