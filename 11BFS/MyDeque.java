@@ -58,10 +58,10 @@ public class MyDeque<T>{
 
     //priorityadd
     public void add(T value, int priority){
-	priorities[last] = priority;
+	priorities[last % priorities.length] = priority;
 	addLast(value);
     }
-
+    
     public void resize(int newLength){
 	Object[] temp = new Object[newLength];
 	int[] tempP = new int[newLength];
@@ -119,7 +119,7 @@ public class MyDeque<T>{
    public String toString(){
 	String str = "[ ";
 	for (int i = 0; i < deque.length; i++){
-	    str += deque[i] + ",";
+	    str += deque[i] + "" +  priorities[i] + ",";
 	}
 	return str + " ]";
     }

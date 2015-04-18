@@ -28,6 +28,7 @@ public class Driver{
 	}else if (Integer.parseInt(args[1]) == 3){
 	    //m.solveAStar(args.length == 3);
 	}
+	System.out.println(m);
 
 	
     }

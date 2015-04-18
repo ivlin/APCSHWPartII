@@ -53,7 +53,6 @@ public class Maze{
 	}
 	return ans;
     }
-    
 
     public Maze(String filename){
 	solutionSteps = new int[0];
@@ -81,7 +80,6 @@ public class Maze{
 	    e.printStackTrace();
 	    System.exit(0);
 	}
-
 	//copy from the single string to a 2D array
 	maze = new char[maxx][maxy];
 	for(int i = 0; i < ans.length(); i++){
@@ -129,7 +127,7 @@ public class Maze{
 	Node current;
 	while (front.hasNext()){
 	    if (isAnimated){
-		wait(30);
+		wait(60);
 		clearTerminal();
 		System.out.println(this.toString(true));
 	    }
@@ -144,19 +142,27 @@ public class Maze{
 		return true;
 	    }
 	    if (maze[current.getx()][current.gety()] == ' ' ||
-		maze[current.getx()][current.gety()] == 'S'){
-		front.add(current.getx() + 1, current.gety(),
-			  current.getDistance() + 1, current);
-		front.add(current.getx() - 1, current.gety(),
-			  current.getDistance() + 1, current);
-		front.add(current.getx(), current.gety() + 1, 
-			  current.getDistance() + 1, current);
-		front.add(current.getx(), current.gety() - 1, 
-			  current.getDistance() + 1, current);
+		maze[current.getx()][current.gety()] == 'S' || 
+		maze[current.getx()][current.gety()] == 'F'){
+
+		fill(front.add(current.getx() + 1, current.gety(),
+			       current.getDistance() + 1, current), 'F');
+		fill(front.add(current.getx() - 1, current.gety(),
+			       current.getDistance() + 1, current), 'F');
+		fill(front.add(current.getx(), current.gety() + 1, 
+			       current.getDistance() + 1, current), 'F');
+		fill(front.add(current.getx(), current.gety() - 1, 
+			       current.getDistance() + 1, current), 'F');
 		maze[current.getx()][current.gety()] = '.';
 	    }	
 	}
 	return false;
+    }
+
+    public void fill(Node n, char c){
+	if (maze[n.getx()][n.gety()] == ' '){
+	    maze[n.getx()][n.gety()] = c;
+	}
     }
 
     public int[] setSolutionCoordinates(Node n){
@@ -197,18 +203,20 @@ public class Maze{
 	    }
 	}
 
-	public void add(int x, int y, int dist, Node last){
+	public Node add(int x, int y, int dist, Node last){
+	    Node n = new Node(x, y, dist, last);
 	    if (mode == 0){
-		moves.addLast(new Node(x, y, dist, last));
+		moves.addLast(n);
 	    }else if (mode == 1){
-		moves.addFirst(new Node(x, y, dist, last));
+		moves.addFirst(n);
 	    }else if (mode == 2){
-		moves.add(new Node(x, y, dist, last), Math.abs(endx - x) + Math.abs(endy - y));
+		moves.add(n, Math.abs(endx - x) + Math.abs(endy - y));
 	    }else if (mode == 3){
-		moves.add(new Node(x,y,dist,last), Math.abs(endx - x) + Math.abs(endy - y) + last.getDistance());
+		moves.add(n, Math.abs(endx - x) + Math.abs(endy - y) + last.getDistance());
 	    }
+	    return n;
 	}
-
+	
 	public String toString(){
 	    return moves.toString();
 	}
