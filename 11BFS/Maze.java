@@ -134,42 +134,43 @@ public class Maze{
 	Node current;
 	while (front.hasNext()){
 	    if (isAnimated){
-		wait(60);
+		wait(30);
 		clearTerminal();
 		System.out.println(this.toString(true));
 	    }
 	    current = front.next();	    
-	    if (maze[current.getx()][current.gety()] == 'E'){
-		solutionSteps = setSolutionCoordinates(current);
-		while (current.getLast() != null){
-		    current = current.getLast();
-		    maze[current.getx()][current.gety()] = '@';
+	    if (maze[current.getx()][current.gety()] == 'F' ||
+		maze[current.getx()][current.gety()] == 'S'){
+		if (
+		    fill(current.getx() + 1, current.gety(),
+			 current.getDistance() + 1, current, 'F') ||
+		    fill(current.getx() - 1, current.gety(),
+			 current.getDistance() + 1, current, 'F') ||
+		    fill(current.getx(), current.gety() + 1, 
+			 current.getDistance() + 1, current, 'F') ||
+		    fill(current.getx(), current.gety() - 1, 
+			 current.getDistance() + 1, current, 'F')){
+		    return true;
 		}
-		maze[startx][starty] = 'S';
-		return true;
-	    }
-	    if (maze[current.getx()][current.gety()] == ' ' ||
-		maze[current.getx()][current.gety()] == 'S' || 
-		maze[current.getx()][current.gety()] == 'F'){
-
-		fill(front.add(current.getx() + 1, current.gety(),
-			       current.getDistance() + 1, current), 'F');
-		fill(front.add(current.getx() - 1, current.gety(),
-			       current.getDistance() + 1, current), 'F');
-		fill(front.add(current.getx(), current.gety() + 1, 
-			       current.getDistance() + 1, current), 'F');
-		fill(front.add(current.getx(), current.gety() - 1, 
-			       current.getDistance() + 1, current), 'F');
+		    
 		maze[current.getx()][current.gety()] = '.';
+		    
 	    }	
 	}
 	return false;
     }
 
-    public void fill(Node n, char c){
-	if (maze[n.getx()][n.gety()] == ' '){
-	    maze[n.getx()][n.gety()] = c;
+    public boolean fill(int x, int y, int dist, Node last, char c){
+	if (maze[x][y] == 'E'){
+	    solutionSteps = setSolutionCoordinates(last);
+	    maze[startx][starty] = 'S';
+	    return true;
 	}
+	if (maze[x][y] == ' '){
+	    front.add(x, y, dist, last);
+	    maze[x][y] = c;
+	}
+	return false;
     }
 
     public int[] setSolutionCoordinates(Node n){
@@ -177,6 +178,7 @@ public class Maze{
 	for (int i = steps.length - 1; i >= 0; i -= 2){
 	    steps[i - 1] = n.getx();	    
 	    steps[i] = n.gety();
+	    maze[n.getx()][n.gety()] = '@';
 	    n = n.getLast();
 	}
 	return steps;
