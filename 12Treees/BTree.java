@@ -7,10 +7,12 @@ public class BTree<E> {
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
 
+    private Random rand;
     private TreeNode<E> root;
 
     public BTree() {
 	root = null;
+	rand = new Random(0);
     }
 
     /*======== public void add() ==========
@@ -39,7 +41,7 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-     	if (Math.random() * 2 == 0){
+     	if (rand.getNext(2) == 0){
 	    if (curr.getLeft() == null){
 		curr.setLeft(bn);
 	    }else{
@@ -71,7 +73,7 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
-
+	
     }
 
 
