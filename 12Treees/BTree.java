@@ -6,7 +6,6 @@ public class BTree<E> {
     public static final int PRE_ORDER = 0;
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
-    
 
     private TreeNode<E> root;
 
@@ -21,7 +20,11 @@ public class BTree<E> {
       Wrapper method for the recursive add()
       ====================*/     
     public void add( E d ) { 
-	
+	if (root == null){
+	    root = new TreeNode<E>(d);
+	}else{
+	    add(root, new TreeNode<E>(d));
+	}
     }
 
     /*======== public void add() ==========
@@ -36,10 +39,22 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-	
+     	if (Math.random() * 2 == 0){
+	    if (curr.getLeft() == null){
+		curr.setLeft(bn);
+	    }else{
+		add(curr.getLeft(), bn);
+	    }
+	}else{
+	    if (curr.getRight() == null){
+		curr.setRight(bn);
+	    }else{
+		add(curr.getRight(), bn);
+	    }
+	}	    
     }
     
-    public void traverse( int mode) {
+    public void traverse(int mode) {
 	if ( mode == PRE_ORDER )
 	    preOrder( root );
 	else if ( mode == IN_ORDER )
@@ -56,6 +71,7 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
+
     }
 
 
@@ -108,7 +124,7 @@ public class BTree<E> {
                given level, ordered left -> right
       
       ====================*/
-    public String getLevel( TreeNode<E> curr, int level, int currLevel ) {
+    private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
 	return "";
     }
     
