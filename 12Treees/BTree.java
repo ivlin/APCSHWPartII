@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class BTree<E> {
-
+    
     public static final int PRE_ORDER = 0;
     public static final int IN_ORDER = 1;
     public static final int POST_ORDER = 2;
@@ -41,7 +41,7 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-     	if (rand.getNext(2) == 0){
+     	if (rand.nextInt(2) == 0){
 	    if (curr.getLeft() == null){
 		curr.setLeft(bn);
 	    }else{
@@ -65,6 +65,7 @@ public class BTree<E> {
 	    postOrder( root );
 	System.out.println();
     }
+
     /*======== public void preOrder() ==========
       Inputs:   TreeNode<E> curr  
       Returns: 
@@ -73,7 +74,11 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
-	
+	if (curr != null){
+	    System.out.print(curr);
+	    preOrder(curr.getLeft());
+	    preOrder(curr.getRight());
+	}
     }
 
 
@@ -85,6 +90,7 @@ public class BTree<E> {
       in-order Traversal
       ====================*/
     public void inOrder( TreeNode<E> curr ) {
+
     }
 
     /*======== public void postOrder() ==========
@@ -115,7 +121,7 @@ public class BTree<E> {
       
       ====================*/
     public int getHeight( TreeNode<E> curr ) {
-	return -1;
+	return Math.max(getHeight(curr.getLeft()), getHeight(curr.getRight()));
     }
 
     /*======== public String getLevel() ==========
@@ -127,6 +133,7 @@ public class BTree<E> {
       
       ====================*/
     private String getLevel( TreeNode<E> curr, int level, int currLevel ) {
+	
 	return "";
     }
     
@@ -161,12 +168,12 @@ public class BTree<E> {
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
-	System.out.println( "In-order: ");
-	t.traverse( IN_ORDER );
-	System.out.println( "Post-order: ");
-	t.traverse( POST_ORDER );
-	System.out.println( "Height: " + t.getHeight() );
+	//	System.out.println( "In-order: ");
+	//t.traverse( IN_ORDER );
+	//System.out.println( "Post-order: ");
+	//t.traverse( POST_ORDER );
+	//System.out.println( "Height: " + t.getHeight() );
 
-	System.out.println( t );
+	//System.out.println( t );
     }
 }

@@ -33,4 +33,9 @@ public class TreeNode<E>{
     public void setRight(TreeNode<E> newRight){
 	right = newRight;
     }
+
+    public String toString(){
+	return data.toString();
+    }
+
 }
