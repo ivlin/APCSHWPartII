@@ -90,7 +90,11 @@ public class BTree<E> {
       in-order Traversal
       ====================*/
     public void inOrder( TreeNode<E> curr ) {
-
+	if (curr != null){
+	    inOrder(curr.getLeft());
+	    System.out.print(curr);
+	    inOrder(curr.getRight());
+	}
     }
 
     /*======== public void postOrder() ==========
@@ -99,11 +103,13 @@ public class BTree<E> {
       
       Prints out the elements in the tree by doing a
       post-order Traversal
-
-      04/05/12 08:56:34
-      jdyrlandweaver
       ====================*/
     public void postOrder( TreeNode<E> curr ) {
+	if (curr != null){
+	    postOrder(curr.getLeft());
+	    postOrder(curr.getRight());
+	    System.out.print(curr);
+	}
     }
     
     /*======== public int getHeight()) ==========
@@ -168,10 +174,10 @@ public class BTree<E> {
 	    t.add( i );
 	System.out.println( "Pre-order: ");
 	t.traverse( PRE_ORDER );
-	//	System.out.println( "In-order: ");
-	//t.traverse( IN_ORDER );
-	//System.out.println( "Post-order: ");
-	//t.traverse( POST_ORDER );
+	System.out.println( "In-order: ");
+	t.traverse( IN_ORDER );
+	System.out.println( "Post-order: ");
+	t.traverse( POST_ORDER );
 	//System.out.println( "Height: " + t.getHeight() );
 
 	//System.out.println( t );
