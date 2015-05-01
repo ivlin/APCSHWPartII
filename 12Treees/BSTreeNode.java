@@ -35,6 +35,10 @@ public class BSTreeNode <T extends Comparable>{
     }
 
     public int compareTo(BSTreeNode o){
-	return getData().compareTo((T)o.getData());
+	return getData().compareTo(o.getData());
+    }
+
+    public String toString(){
+	return getData().toString();
     }
 }
