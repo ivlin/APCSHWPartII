@@ -64,9 +64,46 @@ public class BSTree <T extends Comparable> {
       curr, if it exists.
       ====================*/
     private BSTreeNode<T> remove( BSTreeNode<T> curr, T c ) {
-	return null;
+	if (curr == null){
+	    return curr;
+	}
+	int diff = curr.getData().compareTo(c);
+	if (diff < 0){
+	    curr.setRight(remove(curr.getRight(), c));
+	}
+	if (diff > 0){
+	    curr.setLeft(remove(curr.getLeft(), c));
+	}
+	if (diff == 0){
+	    if (remove(curr.getLeft(), c) == null && remove(curr.getRight(), c) == null){
+		curr = null;
+	    }else if (remove(curr.getLeft(), c) == null){
+		curr = curr.getRight();
+	    }else if (remove(curr.getRight(), c) == null){
+		curr = curr.getLeft();
+	    }else{
+		curr.setData(removeHelp(curr));
+	    }
+	}
+	return curr;
     }
-
+    
+    private T removeHelp(BSTreeNode<T> curr){
+	if (Math.random() * 2 == 0){
+	    curr = curr.getLeft();
+	    while (curr.getRight() != null){
+		curr = curr.getRight();
+	    }
+	}else{
+	    curr = curr.getRight();
+	    while (curr.getLeft() != null){
+		curr = curr.getLeft();
+	    }
+	}
+	T temp = curr.getData();
+	remove(temp);
+	return temp;
+    }
 
     /*======== public void inOrder()) ==========
       Inputs:   
@@ -214,10 +251,21 @@ public class BSTree <T extends Comparable> {
     public static void main( String[] args ) {
 	BSTree<String> n = new BSTree<String>();
 	Random rand = new Random(0);
-	for (int i = 0; i < 3; i++){
-	    System.out.println(n);
-	}   
-       
+	for (int i = 0; i < 10; i++){
+	    n.add("" + rand.nextInt(100));
+	}
+	System.out.println(n);
+	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
+	n.remove("19");
+	System.out.println(n);  
+	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
+  
+	n.remove("91");
+	System.out.println(n);
+	System.out.println("@@@@@@@@@@@@@@@@@@@@@@@");
+
+	n.remove("29");
+	System.out.println(n);      
     }
 
 }
