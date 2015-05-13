@@ -1,3 +1,4 @@
+import java.util.Random;
 public class MyHeap{
 
     private int[] heap;
@@ -6,6 +7,10 @@ public class MyHeap{
 
     public String name(){
 	return "lin ivan";
+    }
+
+    public MyHeap(){
+	this(true);
     }
 
     public MyHeap(boolean max){
@@ -18,17 +23,18 @@ public class MyHeap{
 	if (isMax){
 	    return pa > ch;
 	}else{
-	    return ch < pa;
+	    return pa < ch;
 	}
     }
 
     public void add(int val){
-	heap[size + 1] == val;
-	int last = size + 1;
-	int cur = last / 2;
-	while (isParent(val, heap[cur]) && cur != 0){
-	    
-	    last = heap[cur];
+	heap[size] = val;
+	int last = size;
+	int cur = (last - 1) / 2;
+	while (isParent(val, heap[cur]) && cur >= 0){
+	    heap[last] = heap[cur];
+	    heap[cur] = val;
+	    last = cur;
 	    cur = last / 2;
 	}
 	size++;
@@ -37,7 +43,7 @@ public class MyHeap{
 	}
     }
 
-    private void resize(int[] ar, int newLength){
+    private int[] resize(int[] ar, int newLength){
 	int[]temp = new int[newLength];
 	for (int i = 0; i < ar.length; i++){
 	    temp[i] = ar[i];
@@ -45,6 +51,29 @@ public class MyHeap{
 	return temp;
     }
 
-    public String toString();
+    public int peek(){
+	return heap[0];
+    }
+
+    public String toString(){
+	String str = "[ ";
+	for (int i = 0; i < size; i++){
+	    str += heap[i] + ", ";
+	}
+	return str + "]";
+    }
+
+    public static void main(String[]args){
+	MyHeap h = new MyHeap(true);
+	for (int i = 0; i < 5; i++){
+	    h.add(i);
+	    System.out.println(h);
+	}
+	h.add(10);
+	h.add(2);
+	h.add(5);
+	h.add(11);
+	System.out.println(h);
+    }
 
 }
