@@ -56,11 +56,11 @@ public class MyHeap{
     }
 
     public String toString(){
-	String str = "[ ";
+	String str = "";
 	for (int i = 0; i < size; i++){
 	    str += heap[i] + ", ";
 	}
-	return str + "]";
+	return str.substring(0,str.length() - 2);
     }
 
     public int remove(){
