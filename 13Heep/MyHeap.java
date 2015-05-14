@@ -63,9 +63,29 @@ public class MyHeap{
 	return str + "]";
     }
 
+    public int remove(){
+	int root = heap[0];
+	int cur = 0;
+	int hold = heap[cur];
+	while ((cur + 1) * 2 < size){
+	    if (isParent(heap[(cur + 1) * 2], heap[(cur + 1) * 2 - 1])){
+		hold = (cur + 1) * 2;
+		heap[cur] = heap[hold];
+		cur = hold;
+	    }else{
+		hold = (cur + 1) * 2 - 1;
+		heap[cur] = heap[hold];
+		cur = hold;
+	    }
+	}
+	size --;
+	heap[cur] = heap[size];
+	return root;
+    }
+
     public static void main(String[]args){
 	MyHeap h = new MyHeap(true);
-	for (int i = 0; i < 5; i++){
+	for (int i = 1; i < 6; i++){
 	    h.add(i);
 	    System.out.println(h);
 	}
@@ -74,6 +94,11 @@ public class MyHeap{
 	h.add(5);
 	h.add(11);
 	System.out.println(h);
+	h.remove();
+	//	h.remove();
+	//	h.remove();
+	System.out.println(h);
+
     }
 
 }
