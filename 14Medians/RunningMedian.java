@@ -11,10 +11,8 @@ public class RunningMedian{
 	if (first.getSize() == last.getSize()){
 	    first.add(val);
 	}
-	else if (last.getSize() == 0){
-	    last.add(val);
-	}
 	else if (first.getSize() != last.getSize()){
+	    first.add(val);
 	    last.add(first.remove());
 	}
     }
