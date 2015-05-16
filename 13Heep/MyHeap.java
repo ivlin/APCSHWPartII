@@ -56,9 +56,31 @@ public class MyHeap{
     }
 
     public String toString(){
+	int lvls = (int)(Math.log(size + 1) / Math.log(2)) + 1;
+	int width = (int)Math.pow(2, lvls) - 1;
 	String str = "";
-	for (int i = 0; i < size; i++){
-	    str += heap[i] + ", ";
+	int ind = 0;
+	for (int i = 0; i < lvls; i++){
+	    for (int x = 0; x < Math.pow(2, i); x++){
+		str += getLevel(ind, width) + " ";
+		ind ++;
+	    }
+	    str += "\n";
+	    width = (width - 1) / 2;
+	}
+	return str;
+    }
+
+    public String getLevel(int ind, int width){
+	String str = "";
+	for (int i = 0; i < width; i++){
+	    if (ind < size){
+		if (i == width / 2){
+		    str += heap[ind];
+		}else{
+		    str += " ";
+		}
+	    }
 	}
 	return str;
     }
@@ -83,20 +105,15 @@ public class MyHeap{
 	return root;
     }
 
-    public static void main(String[]args){
-	MyHeap h = new MyHeap(true);
-	/*
-	for (int i = 1; i < 6; i++){
-	    h.add(i);
-	    System.out.println(h);
-	    }*/
-	h.add(10);
-	// 	System.out.println(h);
-	h.remove();
-	//	h.remove();
-	//	h.remove();
-	System.out.println(h);
-
+    public int getSize(){
+	return size;
     }
 
+    public static void main(String[]args){
+	MyHeap h = new MyHeap(true);
+	for (int i = 0; i < 9; i++){
+	    h.add(i);
+	}
+	System.out.println(h);
+    }
 }
