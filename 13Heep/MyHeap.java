@@ -60,7 +60,7 @@ public class MyHeap{
 	for (int i = 0; i < size; i++){
 	    str += heap[i] + ", ";
 	}
-	return str.substring(0,str.length() - 2);
+	return str;
     }
 
     public int remove(){
@@ -85,15 +85,13 @@ public class MyHeap{
 
     public static void main(String[]args){
 	MyHeap h = new MyHeap(true);
+	/*
 	for (int i = 1; i < 6; i++){
 	    h.add(i);
 	    System.out.println(h);
-	}
+	    }*/
 	h.add(10);
-	h.add(2);
-	h.add(5);
-	h.add(11);
-	System.out.println(h);
+	// 	System.out.println(h);
 	h.remove();
 	//	h.remove();
 	//	h.remove();
