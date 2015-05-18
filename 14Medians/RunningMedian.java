@@ -26,9 +26,9 @@ public class RunningMedian{
 
     public static void main(String[]args){
 	RunningMedian m = new RunningMedian();
-	for (int i = 0; i < 20; i++){
-	    m.add((int)(Math.random() * 100));
-	}
+	//	for (int i = 0; i < 20; i++){
+	//m.add((int)(Math.random() * 100));
+	    //	}
 	System.out.println(m.first + " " + m.last);
 	System.out.println(m.getMedian());
     }
